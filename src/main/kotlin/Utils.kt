@@ -5,6 +5,7 @@ import kotlin.math.abs
 import kotlin.system.measureTimeMillis
 
 val NorthSouthWestEast = listOf(1 to 0, 0 to 1, -1 to 0, 0 to -1)
+val AllDirections = NorthSouthWestEast + listOf(1 to 1, -1 to -1, -1 to 1, 1 to -1)
 
 fun readInput() = Path("src/input.txt").readText().trim().lines()
 
@@ -41,11 +42,12 @@ fun <T> List<T>.uniquePairs() = withIndex().flatMap { (index, a) ->
     drop(index + 1).map { b -> a to b }
 }
 
-fun runIfInBounds(block: () -> Unit) {
+fun <T> runIfInBounds(block: () -> T): T? {
     try {
-        block()
+        return block()
     } catch (_: IndexOutOfBoundsException) {
     }
+    return null
 }
 
 infix fun Int.mod(b: Int): Int = ((this % b) + b) % b
