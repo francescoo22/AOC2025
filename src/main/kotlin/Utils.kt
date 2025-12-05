@@ -7,7 +7,8 @@ import kotlin.system.measureTimeMillis
 val NorthSouthWestEast = listOf(1 to 0, 0 to 1, -1 to 0, 0 to -1)
 val AllDirections = NorthSouthWestEast + listOf(1 to 1, -1 to -1, -1 to 1, 1 to -1)
 
-fun readInput() = Path("src/input.txt").readText().trim().lines()
+fun readRawInput() = Path("src/input.txt").readText().trim()
+fun readInput() = readRawInput().lines()
 
 typealias IntMatrix = List<List<Int>>
 typealias IntInt = Pair<Int, Int>
