@@ -7,6 +7,7 @@ import kotlin.system.measureTimeMillis
 val NorthSouthWestEast = listOf(1 to 0, 0 to 1, -1 to 0, 0 to -1)
 val AllDirections = NorthSouthWestEast + listOf(1 to 1, -1 to -1, -1 to 1, 1 to -1)
 
+fun readInputNoTrim() = Path("src/input.txt").readText().lines()
 fun readRawInput() = Path("src/input.txt").readText().trim()
 fun readInput() = readRawInput().lines()
 
