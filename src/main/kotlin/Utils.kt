@@ -2,6 +2,8 @@ import java.math.BigInteger
 import kotlin.io.path.Path
 import kotlin.io.path.readText
 import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 import kotlin.system.measureTimeMillis
 
 val NorthSouthWestEast = listOf(1 to 0, 0 to 1, -1 to 0, 0 to -1)
@@ -94,3 +96,12 @@ fun factorial(n: Int): BigInteger {
 }
 
 fun bin(a: Int, b: Int) = factorial(a) / (factorial(b) * factorial(a - b))
+
+data class Point3D(val x: Double, val y: Double, val z: Double)
+
+fun Point3D.distanceTo(other: Point3D): Double {
+    val dx = this.x - other.x
+    val dy = this.y - other.y
+    val dz = this.z - other.z
+    return sqrt(dx.pow(2) + dy.pow(2) + dz.pow(2))
+}
