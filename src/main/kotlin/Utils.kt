@@ -105,3 +105,48 @@ fun Point3D.distanceTo(other: Point3D): Double {
     val dz = this.z - other.z
     return sqrt(dx.pow(2) + dy.pow(2) + dz.pow(2))
 }
+
+typealias Point2D = Pair<Double, Double>
+typealias Segment = Pair<Point2D, Point2D>
+fun intersect(s1: Segment, s2: Segment): Boolean {
+    fun orientation(a: Point2D, b: Point2D, c: Point2D): Int {
+        val value = (b.second - a.second) * (c.first - b.first) - (b.first - a.first) * (c.second - b.second)
+        val eps = 1e-9
+        return when {
+            value > eps -> 1
+            value < -eps -> -1
+            else -> 0
+        }
+    }
+
+    fun onSegment(a: Point2D, b: Point2D, c: Point2D): Boolean {
+        // c lies on segment ab assuming colinearity
+        val (ax, ay) = a
+        val (bx, by) = b
+        val (cx, cy) = c
+        val minX = minOf(ax, bx) - 1e-9
+        val maxX = maxOf(ax, bx) + 1e-9
+        val minY = minOf(ay, by) - 1e-9
+        val maxY = maxOf(ay, by) + 1e-9
+        return cx in minX..maxX && cy in minY..maxY
+    }
+
+    val (p1, q1) = s1
+    val (p2, q2) = s2
+
+    val o1 = orientation(p1, q1, p2)
+    val o2 = orientation(p1, q1, q2)
+    val o3 = orientation(p2, q2, p1)
+    val o4 = orientation(p2, q2, q1)
+
+    // General case
+    if (o1 != o2 && o3 != o4) return true
+
+    // Special Cases - colinear and on segment (inclusive of endpoints)
+    if (o1 == 0 && onSegment(p1, q1, p2)) return true
+    if (o2 == 0 && onSegment(p1, q1, q2)) return true
+    if (o3 == 0 && onSegment(p2, q2, p1)) return true
+    if (o4 == 0 && onSegment(p2, q2, q1)) return true
+
+    return false
+}
